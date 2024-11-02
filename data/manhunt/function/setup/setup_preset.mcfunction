@@ -8,4 +8,4 @@ tellraw @a [{"clickEvent":{"action":"run_command","value":"/function manhunt:set
 
 tellraw @a [{"clickEvent":{"action":"run_command","value":"/function manhunt:setup/selections/select_goal {\"selectionFor\":\"2\"}"},"color":"blue","hoverEvent":{"action":"show_text","value":[{"text":"Click to set goal","color":"dark_red"}]},"text":"Goal: "},{"color":"gray","hoverEvent":{"action":"show_text","value":[{"text":"","color":"dark_red"}]},"nbt":"selection.2","storage":"manhunt:selection"}]
 tellraw @a {"text":""}
-tellraw @a [{"color":"green","text":"[Start!]"}]
+tellraw @a {"clickEvent":{"action":"run_command","value":"/function manhunt:game/game_start with storage manhunt:selection selection"},"color":"green","text":"[Start!]"}
