@@ -2,6 +2,8 @@
 
 Welcome to the **Manhunt Chaos** wiki! This is the central hub for all information related to the Manhunt Chaos datapack.
 
+> **Note:** Everything below is just placeholder text. Manhunt Chaos is still in early development, so submit a issue through the GitHub repo for any questions.
+
 ## Table of Contents
 
 - [Introduction](#introduction)

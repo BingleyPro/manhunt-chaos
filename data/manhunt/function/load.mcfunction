@@ -22,6 +22,10 @@ tag @a remove speedrunner
 
 advancement revoke @a everything
 
+schedule clear manhunt:game/go
+schedule clear manhunt:game/game_tick
+schedule clear manhunt:tick
+
 gamemode adventure @a
 
 clear @a

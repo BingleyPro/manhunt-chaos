@@ -12,6 +12,10 @@ gamerule drowningDamage true
 gamerule showDeathMessages true
 gamerule doVinesSpread true
 
+advancement revoke @a everything
+
+tag @a remove speedrunner
+
 # Get speedrunner
 $tag $(1) add speedrunner
 
