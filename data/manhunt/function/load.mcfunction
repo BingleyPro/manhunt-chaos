@@ -14,9 +14,22 @@ gamerule doVinesSpread false
 
 scoreboard objectives add info dummy
 scoreboard objectives add death deathCount
+scoreboard objectives add temp dummy
+scoreboard objectives add constant dummy
+
+scoreboard players set -1 constant -1
+scoreboard players set 0 constant 0
+scoreboard players set 1 constant 1
+scoreboard players set 2 constant 2
+scoreboard players set 3 constant 3
+scoreboard players set 4 constant 4
+scoreboard players set 5 constant 5
 
 scoreboard players set ?game_running info 0
 scoreboard players set * death 0
+
+scoreboard players set ?catalog_index temp 0
+scoreboard players set ?catalog_pages temp 0
 
 tag @a remove speedrunner
 
@@ -47,4 +60,5 @@ execute as @a at @s run spawnpoint @s ~ ~ ~
 # Allow players to jump
 execute as @a run attribute @s minecraft:jump_strength base set 0.42
 
-function manhunt:setup/choose_preset_pg1
+scoreboard players set ?catalog_page temp 1
+function manhunt:setup/choose_preset {page:1}

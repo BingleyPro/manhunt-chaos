@@ -1,0 +1,1 @@
+$function manhunt:storage/print_all_presets {"num":$(catalog_num)}

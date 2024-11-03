@@ -1,0 +1,5 @@
+tellraw @a {"text":""}
+
+$execute unless score ?catalog_pages temp <= ?catalog_page temp run tellraw @a [{"bold":true,"clickEvent":{"action":"run_command","value":"/function manhunt:setup/choose_preset {page:$(catalog_page_down)}"},"color":"green","text":"< "},{"color":"aqua","text":"Page $(catalog_page)/$(catalog_pages)"},{"bold":true,"clickEvent":{"action":"run_command","value":"/function manhunt:setup/choose_preset {page:$(catalog_page_up)}"},"color":"green","text":" >"}]
+
+$execute if score ?catalog_pages temp <= ?catalog_page temp run tellraw @a [{"bold":true,"clickEvent":{"action":"run_command","value":"/function manhunt:setup/choose_preset {page:$(catalog_page_down)}"},"color":"green","text":"< "},{"color":"aqua","text":"Page $(catalog_page)/$(catalog_pages)"},{"bold":true,"color":"red","text":" >"}]

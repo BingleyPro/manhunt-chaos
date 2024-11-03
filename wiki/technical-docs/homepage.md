@@ -29,6 +29,14 @@ Scoreboards are used for quick access data. Players with a `?` in front of them 
 |------------|---------|-------------|
 | `info`     | `?game_running`  | Indicates if the game is running (`0` if the game is not running, `1` if it is. Is set to `0` until 'Go!' message appears). |
 | `death`    | *  | Tracks when a player dies. If it is a speedrunner, the game ends. |
+| `temp`    | `?catalog_true`  | Used for tracking if the catalog number being requested in the preset library does exist. |
+| `temp`    | `?catalog_num`  | Used alongside macros |
+| `temp`    | `?catalog_max`  | Used for storing the max catalog number for the current page that's about to be printed. |
+| `temp`    | `?catalog_min`  | Used for storing the min catalog number for the current page that's about to be printed (only for some operations). |
+| `temp`    | `?catalog_page`  | Used for storing the number of the current catalog page. |
+| `temp`    | `?catalog_index`  | Used for looping when checking how many preset items there are. |
+| `temp`    | `?catalog_pages`  | Used to check how many pages are needed for the presets. |
+| `constant`    | any number | Used for constant values for scoreboard operations. |
 
 > **Note:** The Aserick (*) refers to all possible names.
 
@@ -44,14 +52,19 @@ Data storage is used for most data access.
 | `manhunt:selection.seletionFor`  | Used internally with command macros to know which preset option is being changed. |
 | `manhunt:selection.$(name)`   | Used interally to change the single/multi player selector. `$(name)` is created for each player. Contains the subpaths `number` (the option being changed), `name` (the player's name) and `what_select` (what the selection is for, which should always be player_single, but is required for command_macros to work since there is only function to save an option, `save_selection.mcfunction`).  |
 | `manhunt:temp.$(name)`   | When using the single player selector, the datapack uses a method in which the data storage with the player currently selected (stored in `manhunt:selection.selection`) attempts to overwrite a temp storage created with all the other player's names individually. A result can measure if the overwrite was successful, and change the colour of the name based on this. |
+| `manhunt:temp2.num`   | Used for storing the min catalog number for the current page that's about to be printed (only for some operations). This is used alongside the scoreboard value so it can be intergrated into functions with macros. |
+| `manhunt:temp2.catalog_page`   | Used for storing the the current catalog page number (only for some operations). This is used alongside the scoreboard value so it can be intergrated into functions with macros. |
+| `manhunt:temp3.catalog_page_down`   | Used for storing the value one lower than the current catalog page number (only for some operations). |
+| `manhunt:temp3.catalog_page_up`   | Used for storing the value one higher than the current catalog page number (only for some operations). |
+| `manhunt:temp3.catalog_page_index`   | Used alongside the scoreboard player `?catalog_index` for macro function purposes. |
+| `manhunt:temp3.catalog_pages`   | Used alongside the scoreboard player `?catalog_pages` for macro function purposes. |
 
 > The below table shows a data storage format that may be added, but does not exist yet.
 
 | Path | Description |
 |----------|----------|
-| `manhunt:preset.$(preset_name).options` | Uses sub-paths `1`, `2`, `3` etc. to store data about each option for a certain preset. |
-|          |          |
-|          |          |
+| `manhunt:preset.catalog.$(preset_name).options` | Uses sub-paths `1`, `2`, `3` etc. to store data about each option for a certain preset. |
+| `manhunt:preset.catalog` | Stores the number of presets currently in use. |
 
 The data storage file is stored as a `.dat` file in the world save folder as `/data/command_storage_manhunt.dat`.
 
@@ -102,7 +115,17 @@ Loot tables in *Manhunt Chaos* are used for specific entity drops tables or for 
 
 ## Presets
 
+Presets need to have this nbt data:
 
+manhunt:preset.catalog.$(preset_id)`
+
+The top level options are:
+
+| Path | Value |
+|------|-------|
+| `manhunt:preset.catalog.$(preset_id).preset_name` | The preset's name. |
+| `manhunt:preset.catalog.$(preset_id).color` | The colour for the preset name. |
+| `manhunt:preset.catalog.$(preset_id).desc` | A short, one sentence description for the preset. |
 
 ## Selectors
 
