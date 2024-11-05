@@ -1,9 +1,8 @@
 # Display title
 function manhunt:display/display_title_text
 
-# DIsplay preset library
+# Display preset library
 tellraw @a {"color":"gold","text":"\nChoose a preset to begin!"}
-
 tellraw @a {"text":""}
 
 scoreboard players set ?catalog_index temp 0

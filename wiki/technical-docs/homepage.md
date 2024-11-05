@@ -28,6 +28,9 @@ Scoreboards are used for quick access data. Players with a `?` in front of them 
 | Scoreboard | Players | Description |
 |------------|---------|-------------|
 | `info`     | `?game_running`  | Indicates if the game is running (`0` if the game is not running, `1` if it is. Is set to `0` until 'Go!' message appears). |
+| `info`     | `?countdown`  | Stores the number to be displayed for the current countdown from 5. |
+| `info`     | `?loop`  | Used for some looping circuits. |
+| `info`     | `?length`  | Used for some looping circuits. |
 | `death`    | *  | Tracks when a player dies. If it is a speedrunner, the game ends. |
 | `temp`    | `?catalog_true`  | Used for tracking if the catalog number being requested in the preset library does exist. |
 | `temp`    | `?catalog_num`  | Used alongside macros |
@@ -58,13 +61,7 @@ Data storage is used for most data access.
 | `manhunt:temp3.catalog_page_up`   | Used for storing the value one higher than the current catalog page number (only for some operations). |
 | `manhunt:temp3.catalog_page_index`   | Used alongside the scoreboard player `?catalog_index` for macro function purposes. |
 | `manhunt:temp3.catalog_pages`   | Used alongside the scoreboard player `?catalog_pages` for macro function purposes. |
-
-> The below table shows a data storage format that may be added, but does not exist yet.
-
-| Path | Description |
-|----------|----------|
-| `manhunt:preset.catalog.$(preset_name).options` | Uses sub-paths `1`, `2`, `3` etc. to store data about each option for a certain preset. |
-| `manhunt:preset.catalog` | Stores the number of presets currently in use. |
+| `manhunt:preset.catalog[]` | Each item in the array contains three things: `preset_name`, `color`, and `desc`. |
 
 The data storage file is stored as a `.dat` file in the world save folder as `/data/command_storage_manhunt.dat`.
 
@@ -127,6 +124,43 @@ The top level options are:
 | `manhunt:preset.catalog.$(preset_id).color` | The colour for the preset name. |
 | `manhunt:preset.catalog.$(preset_id).desc` | A short, one sentence description for the preset. |
 
+{
+    "catalog": [
+      {
+        "preset_name": "Vanilla",
+        "color": "green",
+        "desc": "The classic 1-speedrunner mode!",
+        "options": [
+          {
+            "name": "Speedrunner", // Name of the option
+            "type": "player", // Type of the option
+            "has_tags": ["speedrunner"], // Only select players with these tags
+            "not_has_tags": ["hunter"], // Only select players without these tags
+            "selection_limit": 1 // Only allow this many players to be selected, -1 for unlimited
+          },
+          {
+            "name": "Hunters",
+            "type": "player",
+            "tag": "hunter",
+            "selection_limit": -1  // -1 for unlimited selections
+          },
+          {
+            "name": "Goals",
+            "type": "multi-choice",
+            "choices": ["Dragon", "Wither", "Elder Guardian"],
+            "selection_limit": 1  // Single choice in multi-choice format
+          },
+          {
+            "name": "Difficulty",
+            "type": "single-choice",
+            "choices": ["Easy", "Normal", "Hard"],
+            "selection_limit": 1
+          }
+        ]
+      }
+    ]
+  }
+
 ## Selectors
 
 ## Features
@@ -137,3 +171,15 @@ The top level options are:
 - Unlimited runners preset doesn't work (not developed yet)
 - Not yet tested with multiplayer
 - /reload doesn't tp back to overworld
+- Update input_target in function manhunt:api/input/prompt_text_input
+- Add `back_function` to prompt_text_input
+
+## Function API
+
+| Function | Inputs | Output |
+|----------|--------|---------|
+| `manhunt:api/input/prompt_text_input` | `main_text`, `main_text_color`, `done_function`, `hover_text`, `hover_text_color`, `back_function`, `text_target`, `input_target`,`storage_location`, `storage_path`  | Gives `input_target` a writtable book, and shows chat messages to `text_target`. In chat, `main_text` in the colour `main_text_color` is shown, with a [Done] button that runs the function `manhunt:api/input/process_text_input` with an input of `done_function`, `input_target`, `storage_location` and `storage_path`. On hover of the button, it shows `hover_text` in the colour `hover_text_color`. |
+| `manhunt:api/input/process_text_input` | `done_function`, `input_target`, `storage_location`, `storage_path`  | Gets the first slot with an item from `input_target`'s inventory and gets the data from `components.minecraft:writable_book_content.pages[0].raw` (the raw text entered into the book). It writes the data into the `storage_location` storage under the path `storage_path` using the `data modify` command. |
+| `manhunt:api/input/prompt_choice_input` | `main_text`, `main_text_color`, `done_function`, `is_done_button`, `back_function`, `text_target`, `input_target`, `options[]`, `options[].text`,`options[].unselected_text_color`,`options[].selected_text_color`, `options[].bold_on_select`, `options[].is_selected`, `options[].path_name`,`storage_location`, `storage_path` |  |
+| `manhunt:api/print/print_multiple` | `storage_location`, `storage_path`  |  |
+| `manhunt:api/print/print_selection_button` | `text`,`unselected_text_color`,`selected_text_color`, `bold_on_select`, `hover_text`, `hover_text_color`, `path_name`,`storage_location`, `storage_path`, `is_selected` |  |

@@ -34,4 +34,6 @@ worldborder set 1000000
 execute as @a[tag=!speedrunner] run attribute @s minecraft:jump_strength base set 0
 
 schedule function manhunt:game/go 5s
-say 5
+
+scoreboard players set ?countdown info 5
+function manhunt:game/countdown_num
