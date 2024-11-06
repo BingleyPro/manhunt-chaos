@@ -11,8 +11,8 @@ Manhunt Chaos offers a a variety of customizable presets, game modes, and unique
 | 1.21.3            | 🛠️ Current Dev Version |
 | 1.21.2            | ❌ Not Supported      |
 | 1.21.1            | ❌ Not Supported      |
-| 1.20.x            | ❌ Not Supported      |
-| 1.19.x and below  | ❌ Not Supported      |
+| 1.20.2            | ❌ Not Supported      |
+| 1.20.1 and below  | ❌ Not Supported      |
 
 **Key:**
 
@@ -21,4 +21,4 @@ Manhunt Chaos offers a a variety of customizable presets, game modes, and unique
 - ⚠️ No More Updates: Older version, may not receive future updates.
 - ❌ Not Supported: Incompatible, features will not work.
 
-**Manhunt Chaos is still in major development! Versions 1.18 to 1.21.3 are planned.**
+**Manhunt Chaos is still in major development! Versions 1.20.2 to 1.21.3 are planned.**
