@@ -130,6 +130,14 @@ The top level options are:
         "preset_name": "Vanilla",
         "color": "green",
         "desc": "The classic 1-speedrunner mode!",
+        "choices" : [
+          {
+            "back_function": "manhunt:back_function"
+            "storage_location": "manhunt:preset",
+            "is_done_button": 1b
+            "storage_path": catalog[0].choices[0]""
+          }
+        ]
         "options": [
           {
             "name": "Speedrunner", // Name of the option

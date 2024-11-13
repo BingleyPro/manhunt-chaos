@@ -1,0 +1,1 @@
+function manhunt:api/print/print_multiple {storage_location:"$(storage_location)",storage_path:"$(storage_path)"}
