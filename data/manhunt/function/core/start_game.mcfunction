@@ -1,0 +1,1 @@
+function manhunt:api/setup/unfreeze_game_state
