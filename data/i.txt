@@ -1,0 +1,426 @@
+Preset Data Storage Format
+We'll use the manhunt:preset storage to store all presets. Each preset will be a JSON object with various properties, including options, triggers, and actions.
+Preset Structure
+The preset structure includes the following main keys:
+* id: Unique identifier for the preset.
+* name: Display name of the preset.
+* description: Description of the preset.
+* color: Display color for the preset.
+* options: An array of customizable options for players to select.
+* events: An array of event definitions specifying custom logic.
+* settings: Additional settings or configurations.
+Here is the detailed structure:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{
+  "presets": [
+    {
+      "id": "unique_preset_id",
+      "name": "Preset Name",
+      "description": "A detailed description of the preset.",
+      "color": "green",
+      "options": [
+        {
+          "name": "Option Name",
+          "type": "choice",
+          "choices": ["Choice 1", "Choice 2", "Choice 3"],
+          "selected": "Choice 1",
+          "description": "Description of the option."
+        },
+        {
+          "name": "Text Option",
+          "type": "text",
+          "value": "",
+          "description": "Enter some text."
+        },
+        {
+          "name": "Player Selection",
+          "type": "player_select",
+          "selected_players": [],
+          "selection_limit": 1,
+          "description": "Select one or more players."
+        },
+        {
+          "name": "Custom Number",
+          "type": "number",
+          "value": 0,
+          "min": 0,
+          "max": 100,
+          "description": "Enter a number between 0 and 100."
+        }
+      ],
+      "events": [
+        {
+          "name": "Random Item Giveaway",
+          "trigger": {
+            "type": "interval",
+            "interval": 6000
+          },
+          "actions": [
+            {
+              "type": "function",
+              "function_name": "manhunt:events/give_random_item"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "game_started",
+              "value": true
+            }
+          ]
+        },
+        {
+          "name": "Special Effect on Jump",
+          "trigger": {
+            "type": "player_action",
+            "action": "jump"
+          },
+          "actions": [
+            {
+              "type": "command",
+              "command": "effect give @s minecraft:levitation 5 1"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "tag",
+              "entity": "@s",
+              "tag": "speedrunner",
+              "has_tag": true
+            }
+          ]
+        }
+      ],
+      "settings": {
+        "custom_setting_1": "value1",
+        "custom_setting_2": "value2"
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+Detailed Explanation
+Options
+Each option in the options array defines a customizable parameter that players can adjust before the game starts.
+* Option Types:
+    * "choice": Single-choice selection from predefined options.
+    * "text": Text input provided by the player.
+    * "player_select": Selection of players, with an optional limit.
+    * "number": Numerical input within specified bounds.
+* Common Option Fields:
+    * name: Display name of the option.
+    * type: Type of the option (choice, text, player_select, number).
+    * description: Tooltip or description for the option.
+* Type-Specific Fields:
+    * choice:
+        * choices: Array of possible choices.
+        * selected: Currently selected choice.
+    * text:
+        * value: Player-provided text input.
+    * player_select:
+        * selected_players: Array of selected players' names.
+        * selection_limit: Max number of players (-1 for no limit).
+    * number:
+        * value: Numerical value.
+        * min: Minimum allowed value.
+        * max: Maximum allowed value.
+Events
+The events array allows defining custom logic executed during the game. Each event includes:
+* name: Name of the event.
+* trigger: Defines when the event occurs.
+* actions: Actions to perform when the event is triggered.
+* conditions: Optional conditions for the event to execute.
+Trigger Types:
+* interval: Triggers at regular intervals.
+    * interval: Time in ticks between triggers.
+* player_action: Triggers when a player performs a specific action.
+    * action: The action triggering the event (e.g., "jump").
+* game_event: Triggers on specific game events.
+    * event: The game event (e.g., "player_death").
+Action Types:
+* command: Executes a command.
+    * command: Command to execute.
+* function: Calls a function.
+    * function_name: Name of the function.
+* message: Sends a message.
+    * message: Message text.
+    * target: Entity selector for recipients (default @a).
+* effect: Applies a status effect.
+    * effect: Effect to apply.
+    * duration: Duration in ticks.
+    * amplifier: Effect strength.
+    * target: Entity selector (default @a).
+Conditions:
+* game_started: Checks if the game is running.
+    * value: true or false.
+* score: Checks a scoreboard value.
+    * objective: Scoreboard objective.
+    * player: Fake player or entity.
+    * operator: Comparison operator (==, !=, <, >, <=, >=).
+    * value: Value to compare.
+* tag: Checks for a tag on an entity.
+    * entity: Entity selector.
+    * tag: Tag to check.
+    * has_tag: true or false.
+Example Event Definition
+Random Item Giveaway Event:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{
+  "name": "Random Item Giveaway",
+  "trigger": {
+    "type": "interval",
+    "interval": 6000
+  },
+  "actions": [
+    {
+      "type": "function",
+      "function_name": "manhunt:events/give_random_item"
+    }
+  ],
+  "conditions": [
+    {
+      "type": "game_started",
+      "value": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
