@@ -1,0 +1,3 @@
+# manhunt:presets/display_preset_option_entry
+
+$tellraw @a [{"clickEvent":{"action":"run_command","value":"/function manhunt:presets/input/prompt_$(type) with storage manhunt:game preset.options[{id:\"$(id)\"}]"},"color":"$(color)","hoverEvent":{"action":"show_text","value":[{"text":"Click to set $(name)","color":"$(color)"}]},"text":"$(name): "},{"color":"gray","hoverEvent":{"action":"show_text","value":[{"text":"Click to set $(name)","color":"$(color)"}]},"text":"$(value)"}]

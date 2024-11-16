@@ -1,13 +1,5 @@
 # Manhunt Chaos
 
-**Manhunt Chaos** is a feature-packed datapack for Minecraft Java, designed to elevate your manhunt experience to a whole new level.
+**Manhunt Chaos**** is currently in early alpha development. At this stage, many features are still under construction. Notably, there is no preset creator available yet. The datapack includes only one preset that allows for a standard manhunt experience.
 
-Manhunt Chaos is avaliable for Minecraft Java Version 1.21+
-
-## Current Gamemodes
-
-- Vanilla
-
-## Planned Features
-
-- A custom preset creator
+We appreciate your understanding as we continue to improve and expand the features of Manhunt Chaos. Stay tuned for future updates.

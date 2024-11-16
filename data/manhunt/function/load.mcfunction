@@ -10,10 +10,9 @@ scoreboard players set ?countdown game 0
 scoreboard players reset * temp
 
 # Clear data storage
-data modify storage manhunt:game set value {}
-data modify storage manhunt:preset set value {}
-data modify storage manhunt:temp set value {}
-data modify storage manhunt:selection set value {}
+data remove storage manhunt:game preset
+data remove storage manhunt:temp *
+data remove storage manhunt:selection *
 
 # Revoke advancements
 advancement revoke @a everything
@@ -58,3 +57,5 @@ execute as @a at @s run spawnpoint @s ~ ~ ~
 
 # Allow players to jump
 execute as @a run attribute @s jump_strength base set 0.42
+
+function manhunt:presets/open_menu
