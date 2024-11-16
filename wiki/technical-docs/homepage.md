@@ -1,193 +1,326 @@
 # Technical Documentation
 
-> **Note:** This documentation is intended for developer use only. Most users should use the general wiki.
+> Note: This documentation is intended for developer use only. Most users should refer to the general wiki.
 
 ## Overview
 
-Welcome to the technical documentation for the Manhunt Chaos datapack. This guide provides detailed information on the inner workings, configuration, and customization options available.
+Welcome to the technical documentation for the Manhunt Chaos datapack. This guide provides detailed information on the inner workings, configurations, and customization options available. This revised documentation includes all necessary functions, a comprehensive preset editor, and the ability to create custom selectors for choices within presets to perform different actions.
 
 ## Table of Contents
 
-1. [Storing Data](#storing-data)
-2. [Advancements](#advancements)
-3. [Tags](#tags)
-4. [Functions](#functions)
+1. Data Management
+- Scoreboards
+- Data Storage
+2. Advancements
+3. Tags
+4.Functions
+Core Functions
+API Functions
+Preset Editor Functions
 5. Presets
+Preset Structure
+Custom Selectors
 6. Selectors
+7. Features
+8. Possible Bugs
+9. Function API
 
-## Storing Data
+## Data Management
 
-There are 2 ways that *Manhunt Chaos* stores data.
+Scoreboards
+Scoreboards are used for quick-access data tracking. Fake player names prefixed with ? are used to store variables.
 
-### Scoreboards
+Scoreboards Used:
 
-Scoreboards are used for quick access data. Players with a `?` in front of them are not actual players, but fake names for data storage purposes.
+game
 
- The scoreboards used in *Manhunt Chaos* are:
+?running: Indicates if the game is running (0 for not running, 1 for running). Set to 0 until the 'Go!' message appears.
+?countdown: Stores the current countdown number from 5.
+?loop: Used for loop iterations.
+?length: Stores the length of arrays or lists.
+temp
 
-| Scoreboard | Players | Description |
-|------------|---------|-------------|
-| `info`     | `?game_running`  | Indicates if the game is running (`0` if the game is not running, `1` if it is. Is set to `0` until 'Go!' message appears). |
-| `info`     | `?countdown`  | Stores the number to be displayed for the current countdown from 5. |
-| `info`     | `?loop`  | Used for some looping circuits. |
-| `info`     | `?length`  | Used for some looping circuits. |
-| `death`    | *  | Tracks when a player dies. If it is a speedrunner, the game ends. |
-| `temp`    | `?catalog_true`  | Used for tracking if the catalog number being requested in the preset library does exist. |
-| `temp`    | `?catalog_num`  | Used alongside macros |
-| `temp`    | `?catalog_max`  | Used for storing the max catalog number for the current page that's about to be printed. |
-| `temp`    | `?catalog_min`  | Used for storing the min catalog number for the current page that's about to be printed (only for some operations). |
-| `temp`    | `?catalog_page`  | Used for storing the number of the current catalog page. |
-| `temp`    | `?catalog_index`  | Used for looping when checking how many preset items there are. |
-| `temp`    | `?catalog_pages`  | Used to check how many pages are needed for the presets. |
-| `constant`    | any number | Used for constant values for scoreboard operations. |
+Used for temporary variables during operations.
+Examples: ?catalog_index, ?catalog_max, etc.
+constants
 
-> **Note:** The Aserick (*) refers to all possible names.
+Stores constant values for calculations.
+Note: The asterisk * refers to all possible player names.
 
-The scoreboard file is stored as a `.dat` file in the world save folder as `/data/scoreboard.dat`.
+Data Storage
+Data storage is used for most data access and is stored under manhunt.
 
-### Data Storage
+Data Storage Paths:
 
-Data storage is used for most data access.
+manhunt:game
 
-| Path | Description |
-|------|-------------|
-| `manhunt:selection.selection` | Uses sub-paths `1`, `2`, `3` etc. to store data about each option in the preset. These are reset on reload. |
-| `manhunt:selection.seletionFor`  | Used internally with command macros to know which preset option is being changed. |
-| `manhunt:selection.$(name)`   | Used interally to change the single/multi player selector. `$(name)` is created for each player. Contains the subpaths `number` (the option being changed), `name` (the player's name) and `what_select` (what the selection is for, which should always be player_single, but is required for command_macros to work since there is only function to save an option, `save_selection.mcfunction`).  |
-| `manhunt:temp.$(name)`   | When using the single player selector, the datapack uses a method in which the data storage with the player currently selected (stored in `manhunt:selection.selection`) attempts to overwrite a temp storage created with all the other player's names individually. A result can measure if the overwrite was successful, and change the colour of the name based on this. |
-| `manhunt:temp2.num`   | Used for storing the min catalog number for the current page that's about to be printed (only for some operations). This is used alongside the scoreboard value so it can be intergrated into functions with macros. |
-| `manhunt:temp2.catalog_page`   | Used for storing the the current catalog page number (only for some operations). This is used alongside the scoreboard value so it can be intergrated into functions with macros. |
-| `manhunt:temp3.catalog_page_down`   | Used for storing the value one lower than the current catalog page number (only for some operations). |
-| `manhunt:temp3.catalog_page_up`   | Used for storing the value one higher than the current catalog page number (only for some operations). |
-| `manhunt:temp3.catalog_page_index`   | Used alongside the scoreboard player `?catalog_index` for macro function purposes. |
-| `manhunt:temp3.catalog_pages`   | Used alongside the scoreboard player `?catalog_pages` for macro function purposes. |
-| `manhunt:preset.catalog[]` | Each item in the array contains three things: `preset_name`, `color`, and `desc`. |
+Stores game-related data such as player roles, settings, and options.
+manhunt:preset
 
-The data storage file is stored as a `.dat` file in the world save folder as `/data/command_storage_manhunt.dat`.
+Contains preset configurations and catalogs.
+manhunt:temp
 
-## Advancements
+Used for temporary data during function operations.
+manhunt:selection
 
-Advancements in *Manhunt Chaos* are used to trigger specific game events. The vanilla advancements are used to show player progress during manhunts.
+Used for player selections and options during setup.
+Data storage files are stored as .dat files in the world save folder under data.
 
-On `load.mcfunction` and `game_start.mcfunction`, all advancements are revoked from players.
+Advancements
+Advancements are used to trigger specific game events and track player progress.
 
-| Advancement | Description |
-|-------------|-------------|
-| `manhunt:dragon_kill.json` | This advancement detects when any player kills the ender dragon. It runs the function `manhunt:game/game_end`. A limitation of this is that if the ender dragon dies not to a player, this advancement will not run. |
+manhunt:dragon_defeat
 
-## Tags
+Detects when a player defeats the Ender Dragon.
+Triggers manhunt:game/end.
+manhunt:custom_goal
 
-Tags in *Manhunt Chaos* are used to group entities specific game mechanics.
+Used for custom goals defined in presets.
+Tags
+Tags are used to group entities for specific game mechanics.
 
-| Tag | Description |
-|-----|-------------|
-| `speedrunner` | On `game_start.mcfunction` with the Vanilla gamemode, the player set as a speedrunner will receive this tag. It is revoked on both `load.mcfunction` and `game_start.mcfunction`. |
+speedrunner
 
-## Functions
+Assigned to players who are speedrunners.
+Removed on game end or reload.
+hunter
 
-Functions in *Manhunt Chaos* make up most of the programming involved.
+Assigned to players who are hunters.
+Custom Tags
 
-| Function | Description |
-|----------|-------------|
-| `manhunt:load.mcfunction` | Runs on /reload. Resets everything ready for a new manhunt. Resets scoreboards, but not data storage. |
-| `manhunt:tick.mcfunction` | Runs every game tick (1/20 of a second). Runs the `manhunt:game/game_tick` function whenever `?game_running` of the `info` scoreboard is set to `1`.  |
-| `manhunt:setup/setup_preset.mcfunction` | *placeholder* |
-| `manhunt:setup/choose_preset_pg1.mcfunction` | *placeholder* |
-| `manhunt:setup/selections/list_player.mcfunction` | *placeholder* |
-| `manhunt:setup/selections/save_selection.mcfunction` | *placeholder* |
-| `manhunt:setup/selections/select_goal.mcfunction` | *placeholder* |
-| `manhunt:setup/selections/select_player_single.mcfunction` | *placeholder* |
-| `manhunt:game/game_start.mcfunction` | *placeholder* |
-| `manhunt:game/go.mcfunction` | *placeholder* |
-| `manhunt:game/game_tick.mcfunction` | *placeholder* |
-| `manhunt:game/game_end.mcfunction` | *placeholder* |
+Can be defined in presets for custom roles or mechanics.
+Functions
+Core Functions
+manhunt:load
 
-## Loot Tables
+Resets game state on /reload.
+Resets scoreboards and data storage.
+manhunt:tick
 
-Loot tables in *Manhunt Chaos* are used for specific entity drops tables or for other mechanics.
+Runs every game tick.
+Executes manhunt:game/tick when the game is running.
+manhunt:game/start
 
-| Loot Table | Description |
-|------------|-------------|
-| `manhunt:get_player_head.json` | This loot table gets the player head of the player executing the command. This is used to be able to get the player name as a string for the player selector. For more information, check the feature Player Selection. |
+Initializes the game, assigns roles, and begins the countdown.
+manhunt:game/end
 
-## Presets
+Ends the game and announces the winner.
+manhunt:game/tick
 
-Presets need to have this nbt data:
+Handles game logic that runs every tick.
+API Functions
+These functions handle input prompts, selections, and user interfaces.
 
-manhunt:preset.catalog.$(preset_id)`
+manhunt:api/input/prompt_text
 
-The top level options are:
+Prompts the player with text input.
+Parameters include display text, colors, and functions to run on completion.
+manhunt:api/input/process_text
 
-| Path | Value |
-|------|-------|
-| `manhunt:preset.catalog.$(preset_id).preset_name` | The preset's name. |
-| `manhunt:preset.catalog.$(preset_id).color` | The colour for the preset name. |
-| `manhunt:preset.catalog.$(preset_id).desc` | A short, one sentence description for the preset. |
+Processes text input from the player and stores it.
+manhunt:api/input/prompt_choice
 
-{
-    "catalog": [
-      {
-        "preset_name": "Vanilla",
-        "color": "green",
-        "desc": "The classic 1-speedrunner mode!",
-        "choices" : [
-          {
-            "back_function": "manhunt:back_function"
-            "storage_location": "manhunt:preset",
-            "is_done_button": 1b
-            "storage_path": catalog[0].choices[0]""
-          }
-        ]
-        "options": [
-          {
-            "name": "Speedrunner", // Name of the option
-            "type": "player", // Type of the option
-            "has_tags": ["speedrunner"], // Only select players with these tags
-            "not_has_tags": ["hunter"], // Only select players without these tags
-            "selection_limit": 1 // Only allow this many players to be selected, -1 for unlimited
-          },
-          {
-            "name": "Hunters",
-            "type": "player",
-            "tag": "hunter",
-            "selection_limit": -1  // -1 for unlimited selections
-          },
-          {
-            "name": "Goals",
-            "type": "multi-choice",
-            "choices": ["Dragon", "Wither", "Elder Guardian"],
-            "selection_limit": 1  // Single choice in multi-choice format
-          },
-          {
-            "name": "Difficulty",
-            "type": "single-choice",
-            "choices": ["Easy", "Normal", "Hard"],
-            "selection_limit": 1
-          }
-        ]
-      }
-    ]
-  }
+Presents the player with a choice selection interface.
+Supports custom options and actions.
+manhunt:api/print/multiple
 
-## Selectors
+Prints multiple selectable options to the player.
+Used for listing presets or choices.
+manhunt:api/print/selection_button
 
-## Features
+Generates a clickable text button for selections.
+Preset Editor Functions
+Functions to support a full preset editor, allowing for creation and customization of game presets.
 
-## Current Possible Bugs
+manhunt:editor/open
 
-- Ender dragon death is only detected on an entity killing it
-- Unlimited runners preset doesn't work (not developed yet)
-- Not yet tested with multiplayer
-- /reload doesn't tp back to overworld
-- Update input_target in function manhunt:api/input/prompt_text_input
-- Add `back_function` to prompt_text_input
+Opens the preset editor interface.
+manhunt:editor/create_preset
 
-## Function API
+Initiates the creation of a new preset.
+manhunt:editor/edit_preset
 
-| Function | Inputs | Output |
-|----------|--------|---------|
-| `manhunt:api/input/prompt_text_input` | `main_text`, `main_text_color`, `done_function`, `hover_text`, `hover_text_color`, `back_function`, `text_target`, `input_target`,`storage_location`, `storage_path`  | Gives `input_target` a writtable book, and shows chat messages to `text_target`. In chat, `main_text` in the colour `main_text_color` is shown, with a [Done] button that runs the function `manhunt:api/input/process_text_input` with an input of `done_function`, `input_target`, `storage_location` and `storage_path`. On hover of the button, it shows `hover_text` in the colour `hover_text_color`. |
-| `manhunt:api/input/process_text_input` | `done_function`, `input_target`, `storage_location`, `storage_path`  | Gets the first slot with an item from `input_target`'s inventory and gets the data from `components.minecraft:writable_book_content.pages[0].raw` (the raw text entered into the book). It writes the data into the `storage_location` storage under the path `storage_path` using the `data modify` command. |
-| `manhunt:api/input/prompt_choice_input` | `main_text`, `main_text_color`, `done_function`, `is_done_button`, `back_function`, `text_target`, `input_target`, `options[]`, `options[].text`,`options[].unselected_text_color`,`options[].selected_text_color`, `options[].bold_on_select`, `options[].is_selected`, `options[].path_name`,`storage_location`, `storage_path` |  |
-| `manhunt:api/print/print_multiple` | `storage_location`, `storage_path`  |  |
-| `manhunt:api/print/print_selection_button` | `text`,`unselected_text_color`,`selected_text_color`, `bold_on_select`, `hover_text`, `hover_text_color`, `path_name`,`storage_location`, `storage_path`, `is_selected` |  |
+Allows editing of an existing preset.
+manhunt:editor/save_preset
+
+Saves the current preset configuration.
+manhunt:editor/delete_preset
+
+Deletes a selected preset.
+manhunt:editor/add_choice
+
+Adds a new choice or option to a preset.
+manhunt:editor/custom_selector
+
+Allows defining custom selectors for choices within a preset.
+Presets
+Presets define game configurations that can be quickly selected and customized.
+
+Preset Structure
+A preset is stored as a JSON object under manhunt:preset.presets[]. Each preset includes:
+
+name: The name of the preset.
+color: The display color for the preset.
+description: A brief description of the preset.
+options: An array of options or choices within the preset.
+Example Preset Structure:
+
+Custom Selectors
+Custom selectors allow presets to define unique selection mechanics or input methods.
+
+selector_type: Defines the type of selector (e.g., player_select, multi_choice, custom).
+action: Specifies a function to run when the choice is made.
+validation: Defines rules for valid inputs or selections.
+Example of Custom Selector in a Preset:
+
+In this example, the Event Frequency option uses a custom selector function to allow the player to input a number between 1 and 10.
+
+Selectors
+Selectors are used to determine which entities or players are affected by certain commands or functions.
+
+Player Selectors:
+
+@a: All players.
+@p: Nearest player.
+@s: Executing entity.
+Custom Selectors:
+
+Defined within presets or functions.
+Use tags or scoreboard criteria to target specific players or entities.
+Creating Custom Selectors:
+
+Custom selectors can be defined using tags, scores, or NBT data.
+
+Example:
+
+To create a selector for all players who are hunters:
+
+Features
+Preset Editor: Allows creation and customization of game presets within the game.
+Custom Goals: Define new game objectives in presets.
+Flexible Roles: Support for multiple speedrunners or hunters.
+Custom Events: Add random events or custom mechanics through presets.
+Custom Selectors: Write custom selectors for choices within presets, enabling different functionalities.
+Possible Bugs
+Detection of the Ender Dragon defeat may not trigger if the dragon dies due to non-player causes.
+Multiplayer testing is required to ensure functionality.
+Reloading the game may not reset players to the overworld.
+Function API
+Core Functions
+manhunt:load
+Description: Initializes and resets the game state.
+Usage: Automatically runs on /reload.
+Actions:
+Resets scoreboards.
+Clears temporary data storage.
+Revokes all advancements.
+Teleports players to the starting area.
+manhunt:tick
+Description: Handles game logic that needs to be checked every tick.
+Usage: Should be included in the world's tick function list.
+Actions:
+Checks if the game is running.
+Executes manhunt:game/tick if ?running is 1.
+API Functions
+manhunt:api/input/prompt_text
+Description: Prompts a player with a text input interface.
+Parameters:
+main_text: The main prompt text.
+main_text_color: Color of the main text.
+done_function: Function to run upon completion.
+hover_text: Text displayed on hover.
+hover_text_color: Color of the hover text.
+back_function: Function to run when the back button is clicked (optional).
+text_target: Player to display messages to.
+input_target: Player who will input text.
+storage_location: Data storage path to save input.
+storage_path: Specific path within the storage to save input.
+manhunt:api/input/process_text
+Description: Processes text input from a player and stores it.
+Parameters:
+done_function: Function to run after processing.
+input_target: Player who provided the input.
+storage_location: Data storage path.
+storage_path: Specific path within the storage.
+manhunt:api/input/prompt_choice
+Description: Presents a choice selection interface to a player.
+Parameters:
+main_text: The main prompt text.
+main_text_color: Color of the main text.
+done_function: Function to run upon completion.
+is_done_button: Indicates if a done button should be displayed.
+back_function: Function to run when the back button is clicked (optional).
+text_target: Player to display messages to.
+input_target: Player who will make selections.
+options: Array of choice options.
+Each option includes:
+text: Display text for the option.
+unselected_text_color: Color when unselected.
+selected_text_color: Color when selected.
+bold_on_select: Whether to display in bold when selected.
+is_selected: Current selection state.
+path_name: Data path name to store selection.
+manhunt:api/print/multiple
+Description: Displays multiple options or messages to the player.
+Parameters:
+storage_location: Data storage path containing options.
+storage_path: Specific path within the storage.
+manhunt:api/print/selection_button
+Description: Creates a clickable text button in chat.
+Parameters:
+text: The button text.
+unselected_text_color: Color when unselected.
+selected_text_color: Color when selected.
+bold_on_select: Whether to display in bold when selected.
+hover_text: Text displayed on hover.
+hover_text_color: Color of the hover text.
+path_name: Data path name for the option.
+storage_location: Data storage path.
+storage_path: Specific path within the storage.
+is_selected: Current selection state.
+Preset Editor Functions
+manhunt:editor/open
+Description: Opens the preset editor interface.
+Usage: /function manhunt:editor/open
+Actions:
+Displays a list of existing presets.
+Provides options to create, edit, or delete presets.
+manhunt:editor/create_preset
+Description: Starts the process to create a new preset.
+Actions:
+Prompts for preset name, color, and description.
+Initializes a new preset structure in data storage.
+manhunt:editor/edit_preset
+Description: Opens an existing preset for editing.
+Parameters:
+preset_id: Identifier of the preset to edit.
+Actions:
+Allows modification of preset attributes and options.
+Provides interface to add or remove options.
+manhunt:editor/add_choice
+Description: Adds a new option or choice to a preset.
+Parameters:
+preset_id: Identifier of the preset.
+option: Option details to add.
+Actions:
+Updates the preset's options array.
+Supports different types of options (e.g., player selection, choices, custom selectors).
+manhunt:editor/custom_selector
+Description: Allows defining custom selectors for choices within a preset.
+Parameters:
+selector_details: Details of the custom selector.
+Actions:
+Validates and stores the custom selector configuration.
+Integrates the custom selector into the preset.
+manhunt:editor/save_preset
+Description: Saves the current preset.
+Actions:
+Writes the preset data to the manhunt:preset storage.
+Ensures data integrity and validity.
+manhunt:editor/delete_preset
+Description: Deletes a selected preset.
+Parameters:
+preset_id: Identifier of the preset to delete.
+Actions:
+Removes the preset from data storage.
+Updates the preset catalog.

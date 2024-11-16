@@ -1,5 +1,1 @@
-#$execute if data storage $(storage_location) $(storage_path).is_selected run tellraw @a {"clickEvent":{"action":"run_command","value":"/function manhunt:api/input/prompt_choice_input"},"color":"$(unselected_text_color)","hoverEvent":{"action":"show_text","value":[{"text":"$(hover_text)","color":"$(hover_text_color)"}]},"text":"$(text)"}
-
 $tellraw @a {"clickEvent":{"action":"run_command","value":"/function manhunt:api/input/prompt_choice_input"},"color":"$(unselected_text_color)","hoverEvent":{"action":"show_text","value":[{"text":"a","color":"green"}]},"text":"$(text)"}
-
-#$execute unless data storage $(storage_location) $(storage_path).is_selected run tellraw @a {"clickEvent":{"action":"run_command","value":"return"},"color":"$(selected_text_color)","hoverEvent":{"action":"show_text","value":[{"text":"$(hover_text)","color":"$(hover_text_color)"}]},"text":"$(text)"}
