@@ -1,11 +1,11 @@
-gamemode survival @a
+# manhunt:game/go
 
+# Clear effects from hunters
 effect clear @a[tag=!speedrunner]
-execute as @a[tag=!speedrunner] run attribute @s minecraft:jump_strength base set 0.42
 
-title @a[tag=!speedrunner] title {"color":"gold","text":"GO!"}
-tellraw @a[tag=speedrunner] {"color":"red","text":"The hunters have been released!"}
-execute as @a at @s run playsound minecraft:entity.dragon_fireball.explode master @s
+# Announce game start
+title @a[tag=!speedrunner] title {"text":"GO!","color":"gold","bold":true}
+tellraw @a[tag=speedrunner] {"text":"The hunters have been released!","color":"red"}
 
-scoreboard players set * death 0
-scoreboard players set ?game_running info 1
+# Play start sound
+execute as @a at @s run playsound entity.ender_dragon.growl master @s

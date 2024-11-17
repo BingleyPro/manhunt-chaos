@@ -1,0 +1,20 @@
+{
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+      "equipment": {
+        "head": {
+          "empty": true
+        },
+        "chest": {
+          "empty": true
+        },
+        "legs": {
+          "empty": true
+        },
+        "feet": {
+          "empty": true
+        }
+      }
+    }
+  }

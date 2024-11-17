@@ -6,6 +6,8 @@ scoreboard objectives add temp dummy
 scoreboard players set ?running game 0
 scoreboard players set ?countdown game 0
 
+scoreboard players set ?game_time game 0
+
 # Clear temporary variables
 scoreboard players reset * temp
 

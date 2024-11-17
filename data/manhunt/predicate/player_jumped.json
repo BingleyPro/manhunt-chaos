@@ -1,0 +1,15 @@
+{
+    "condition": "entity_properties",
+    "entity": "this",
+    "predicate": {
+        "equipment": {},
+        "flags": {
+            "is_on_ground": false
+        },
+        "movement": {
+            "y": {
+                "min": 0.42
+            }
+        }
+    }
+}

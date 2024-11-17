@@ -1,1 +1,2 @@
-execute as @a[tag=speedrunner] if score @s death matches 1 run function manhunt:game/game_end
+# manhunt:game/game_tick
+

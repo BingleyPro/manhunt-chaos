@@ -1,0 +1,12 @@
+{
+    "condition": "minecraft:inventory_match",
+    "predicate": {
+      "items": [
+        {
+          "item": "minecraft:diamond"
+        }
+      ]
+    }
+  }
+
+  
