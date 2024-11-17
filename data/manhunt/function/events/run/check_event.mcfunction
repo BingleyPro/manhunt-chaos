@@ -5,6 +5,7 @@ execute store result score ?length temp run data get storage manhunt:game preset
 
 # Initialize loop index
 scoreboard players set ?index temp 0
+scoreboard players set ?checks temp 0
 
 # Start looping through conditions
 function manhunt:events/run/loop_condition_event with storage manhunt:game preset.events[{id:"$(id)"}]
