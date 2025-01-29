@@ -1,6 +1,6 @@
 # Manhunt Chaos
 
-> **Manhunt Chaos** is a unqiue and exciting datapack featuring custom presets for playing manhunts!
+> **Manhunt Chaos** is a unqiue and exciting datapack featuring custom presets for playing manhunts! For **Minecraft 1.21.3+** only.
 
 **Manhunt Chaos** is currently in early development. At this stage, many features may still be under construction.
 
@@ -9,7 +9,7 @@ Click the green code button, then Download Zip. Unzip the folder as `manhunt-cha
 
 <img width="600" alt="" src="https://github.com/user-attachments/assets/883acf1a-56d5-4eb0-8cd2-643a393ebc0f" />
 
-In your 1.21+ Minecraft instance, go Options > Resource Packs > Open Pack Folder.
+In your 1.21.3+ Minecraft instance, go Options > Resource Packs > Open Pack Folder.
 
 <img width="966" alt="" src="https://github.com/user-attachments/assets/9cca5879-7fec-46cf-8eab-47f99b304d11" />
 
