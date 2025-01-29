@@ -11,10 +11,10 @@ Click the green code button, then Download Zip. Unzip the folder as `manhunt-cha
 
 In your 1.21+ Minecraft instance, go Options > Resource Packs > Open Pack Folder.
 
-<img width="966" alt="Screenshot 2025-01-29 at 1 04 26 pm" src="https://github.com/user-attachments/assets/9cca5879-7fec-46cf-8eab-47f99b304d11" />
+<img width="966" alt="" src="https://github.com/user-attachments/assets/9cca5879-7fec-46cf-8eab-47f99b304d11" />
 
-Go out one folder, then go into the datapacks folder, and drop your unzipped folder here.
+Go out one folder, then go into the saves folder, select your world, enter the datapacks folder (or create it if it doesn't exist) and dropped the unzipped folder there.
 
-<img width="758" alt="Screenshot 2025-01-29 at 1 06 17 pm" src="https://github.com/user-attachments/assets/03769aa6-ef93-467e-95a7-5a75a260bb28" />
+<img width="757" alt="" src="https://github.com/user-attachments/assets/d208f1ef-cfaf-47f2-a230-7b9ce5579c76" />
 
 Join your game, and if the default popup doesn't appear, just type `/reload`. Have fun!
