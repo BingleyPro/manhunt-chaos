@@ -18,3 +18,7 @@ Go out one folder, then go into the saves folder, select your world, enter the d
 <img width="757" alt="" src="https://github.com/user-attachments/assets/d208f1ef-cfaf-47f2-a230-7b9ce5579c76" />
 
 Join your game, and if the default popup doesn't appear, just type `/reload`. Have fun!
+
+
+
+<img width="966" alt="" src="https://github.com/user-attachments/assets/98697115-16c2-4dec-aa26-975a2fa51874" />
